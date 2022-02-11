@@ -1,0 +1,49 @@
+syntax = "proto3";
+package math_ops;
+option go_package = "math_ops_gateway/gen/go/math_ops";
+
+import "google/api/annotations.proto";
+
+service MathOps {
+    rpc add(MathOpArgs) returns (MathOpResult) {
+        option (google.api.http) = {
+            get: "/api/v1/math_ops/add"
+        };
+    }
+
+    rpc subtract(MathOpArgs) returns (MathOpResult) {
+        option (google.api.http) = {
+            get: "/api/v1/math_ops/subtract"
+        };
+    }
+
+    rpc multiply(MathOpArgs) returns (MathOpResult) {
+        option (google.api.http) = {
+            get: "/api/v1/math_ops/multiply"
+        };
+    }
+
+    rpc divide(MathOpArgs) returns (MathOpResult) {
+        option (google.api.http) = {
+            get: "/api/v1/math_ops/divide"
+        };
+    }
+
+    rpc remainder(MathOpArgs) returns (MathOpResult) {
+        option (google.api.http) = {
+            post: "/api/v1/math_ops/remainder"
+            body: "*"
+        };
+    }
+}
+
+message MathOpArgs {
+    float a = 1;
+    float b = 2;
+}
+
+message MathOpResult {
+    float output = 1;
+    string reply = 2;
+    bool error = 3;
+}

@@ -1,0 +1,4 @@
+boilerplate/third_party/OpenAPI/math_ops.swagger.json
+math_ops/
+*.exe
+math_ops_gateway
