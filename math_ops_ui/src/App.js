@@ -78,11 +78,11 @@ function App() {
       let result;
       try {
         switch (op) {
-          case "+": result = await client.mathOpsAdd(args, {}); break;
-          case "-": result = await client.mathOpsSubtract(args, {}); break;
-          case "*": result = await client.mathOpsMultiply(args, {}); break;
-          case "/": result = await client.mathOpsDivide(args, {}); break;
-          case "%": result = await client.mathOpsRemainder(args, {}); break;
+          case "+": result = await client.mathOpsAdd(args); break;
+          case "-": result = await client.mathOpsSubtract(args); break;
+          case "*": result = await client.mathOpsMultiply(args); break;
+          case "/": result = await client.mathOpsDivide(args); break;
+          case "%": result = await client.mathOpsRemainder({body: args}); break;
           default: break;
         }
         setValue(result.reply);
