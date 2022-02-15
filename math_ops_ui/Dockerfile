@@ -17,7 +17,7 @@ RUN go get -u github.com/grpc-ecosystem/grpc-gateway/v2/protoc-gen-openapiv2
 WORKDIR /app
 COPY proto/ proto/
 WORKDIR /app/math_ops_ui
-COPY math_ops_ui/package.json math_ops_ui/yarn.lock ./
+COPY math_ops_ui/package.json math_ops_ui/yarn.lock math_ops_ui/tsconfig.json ./
 RUN yarn
 COPY math_ops_ui/src/ src/
 COPY math_ops_ui/public/ public/
