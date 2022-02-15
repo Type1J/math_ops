@@ -1,7 +1,7 @@
 # The `math_ops` service
 
 ## Purpose
-This project was made by me (Jay Sistar) to serve as a starting point for Rust gRPC services with
+This project was made to serve as a starting point for Rust gRPC services with:
 
 * gRPC Reflection
 * gRPC-Web
