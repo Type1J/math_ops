@@ -13,9 +13,13 @@ import {
 
 import './App.css';
 
-import {MathOpArgs} from './gen/math_ops_pb';
-import {MathOpsPromiseClient} from './gen/math_ops_grpc_web_pb';
-import {MathOpsRestClient} from './math_ops_rest';
+// gRPC
+import { MathOpArgs } from './gen/math_ops_pb';
+import { MathOpsPromiseClient } from './gen/math_ops_grpc_web_pb';
+
+// REST
+import { OpenAPI } from './gen/MathOps/core/OpenAPI';
+import { MathOpsRestClient } from './gen/MathOps/services/MathOpsRestClient';
 
 const theme = createTheme({
   palette: {
@@ -27,11 +31,15 @@ const enableDevTools = window.__GRPCWEB_DEVTOOLS__ || (() => {});
 let urls = null;
 
 async function createClients() {
-    urls = await fetch('/urls.json').then((response) => response.json());
-    let grpcClient = new MathOpsPromiseClient(urls.grpc);
-    let restClient = new MathOpsRestClient(urls.rest);
-    enableDevTools([grpcClient]);
-    return {grpcClient, restClient};
+  urls = await fetch('/urls.json').then((response) => response.json());
+
+  const grpcClient = new MathOpsPromiseClient(urls.grpc);
+  enableDevTools([grpcClient]);
+
+  OpenAPI.BASE = urls.rest;
+  const restClient = MathOpsRestClient;
+
+  return {grpcClient, restClient};
 }
 
 function App() {
@@ -61,37 +69,47 @@ function App() {
 
     clearValue();
 
-    let args;
     if (client === window.restClient) {
-      args = {
+      const args = {
         a,
         b,
       };
+
+      let result;
+      try {
+        switch (op) {
+          case "+": result = await client.mathOpsAdd(args, {}); break;
+          case "-": result = await client.mathOpsSubtract(args, {}); break;
+          case "*": result = await client.mathOpsMultiply(args, {}); break;
+          case "/": result = await client.mathOpsDivide(args, {}); break;
+          case "%": result = await client.mathOpsRemainder(args, {}); break;
+          default: break;
+        }
+        setValue(result.reply);
+      } catch(err) {
+        alert(err.message);
+        return;
+      }
     } else {
-      args = new MathOpArgs();
+      const args = new MathOpArgs();
       args.setA(a);
       args.setB(b);
-    }
 
-    let result;
-    try {
-      switch (op) {
-        case "+": result = await client.add(args, {}); break;
-        case "-": result = await client.subtract(args, {}); break;
-        case "*": result = await client.multiply(args, {}); break;
-        case "/": result = await client.divide(args, {}); break;
-        case "%": result = await client.remainder(args, {}); break;
-        default: break;
+      let result;
+      try {
+        switch (op) {
+          case "+": result = await client.add(args, {}); break;
+          case "-": result = await client.subtract(args, {}); break;
+          case "*": result = await client.multiply(args, {}); break;
+          case "/": result = await client.divide(args, {}); break;
+          case "%": result = await client.remainder(args, {}); break;
+          default: break;
+        }
+        setValue(result.getReply());
+      } catch(err) {
+        alert(err.message);
+        return;
       }
-    } catch(err) {
-      alert(err.message);
-      return;
-    }
-
-    if (client === window.restClient) {
-      setValue(result.reply);
-    } else {
-      setValue(result.getReply());
     }
   }
 

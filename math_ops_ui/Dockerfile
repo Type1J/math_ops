@@ -9,6 +9,11 @@ RUN apk add protoc \
 &&  apk add g++ \
 &&  apk add python3 \
 &&  apk add bash
+WORKDIR /usr/local/go
+COPY --from=golang:1.17-alpine /usr/local/go ./
+ENV GOPATH=/usr/local/go
+ENV PATH=/usr/local/go/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+RUN go get -u github.com/grpc-ecosystem/grpc-gateway/v2/protoc-gen-openapiv2
 WORKDIR /app
 COPY proto/ proto/
 WORKDIR /app/math_ops_ui
