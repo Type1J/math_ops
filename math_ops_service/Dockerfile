@@ -1,6 +1,6 @@
 # syntax=docker/dockerfile:1
 
-FROM rust:alpine3.15 AS build
+FROM docker.io/rust:alpine3.19 AS build
 RUN apk add musl-dev \
 &&  apk add protoc \
 &&  apk add protobuf-dev \
@@ -15,7 +15,7 @@ COPY math_ops_service/build.rs ./
 COPY math_ops_service/src/ ./src/
 RUN cargo build --color always --release
 
-FROM alpine:3.15 AS run
+FROM docker.io/alpine:3.19 AS run
 WORKDIR /app
 COPY --from=build /app/math_ops_service/target/release/math_ops_service ./
 ENV PORT=8051

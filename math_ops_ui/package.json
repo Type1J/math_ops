@@ -3,29 +3,34 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@babel/core": "^7.23.7",
+    "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
+    "@babel/plugin-syntax-flow": "^7.23.3",
+    "@babel/plugin-transform-react-jsx": "^7.23.4",
     "@emotion/react": "^11.7.1",
     "@emotion/styled": "^11.6.0",
     "@mui/material": "^5.4.1",
+    "@testing-library/dom": "^9.3.4",
     "@testing-library/jest-dom": "^5.11.4",
     "@testing-library/react": "^11.1.0",
     "@testing-library/user-event": "^12.1.10",
     "caniuse-lite": "^1.0.30001312",
-    "google-protobuf": "^3.17.3",
-    "grpc": "^1.24.11",
-    "grpc-web": "^1.2.1",
+    "google-protobuf": "^3.21.2",
+    "grpc-web": "^1.5.0",
     "openapi-typescript-codegen": "^0.19.0",
     "protoc-gen-grpc-web": "^1.2.1",
-    "react": "^17.0.2",
-    "react-dom": "^17.0.2",
-    "react-scripts": "4.0.3",
-    "typescript": "^4.5.5",
-    "web-vitals": "^1.0.1"
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-scripts": "5.0.1",
+    "ts-protoc-gen": "^0.15.0",
+    "typescript": "^4",
+    "web-vitals": "^2.1.4"
   },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "build-proto": "mkdir src/gen ; protoc -I=../proto math_ops.proto google/api/annotations.proto google/api/http.proto --js_out=import_style=commonjs:src/gen --grpc-web_out=import_style=commonjs,mode=grpcweb:src/gen --openapiv2_out=src/gen --openapiv2_opt logtostderr=true && openapi --useOptions --postfix RestClient -c xhr -i src/gen/math_ops.swagger.json -o src/gen/MathOps"
+    "build-proto": "mkdir -p src/gen ; protoc -I=../proto math_ops.proto google/api/annotations.proto google/api/http.proto --ts_out=import_style=commonjs:src/gen --js_out=import_style=commonjs:src/gen --grpc-web_out=import_style=commonjs,mode=grpcweb:src/gen --openapiv2_out=src/gen --openapiv2_opt logtostderr=true && openapi --useOptions --postfix RestClient -c xhr -i src/gen/math_ops.swagger.json -o src/gen/MathOps"
   },
   "eslintConfig": {
     "extends": [
