@@ -1,8 +1,7 @@
-use failure::Error;
 use std::env;
 use std::path::PathBuf;
 
-fn main() -> Result<(), Error> {
+fn main() -> anyhow::Result<()> {
     let out_dir = PathBuf::from(env::var("OUT_DIR")?);
 
     tonic_build::configure()
